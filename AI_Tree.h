@@ -1,23 +1,23 @@
-#ifndef TREE_ADT_H
-#define TREE_ADT_H
+#ifndef AI_TREE_H
+#define AI_TREE_H
 
 #include <iostream>
 #include <vector>
 
 using namespace std;
 
-// Node class for general tree
-class TreeNode {
+class TreeNode {// Node class for general tree
 public:
     string data;
+    int row;
+    int col;
     vector<TreeNode*> children;
 
     TreeNode(string value);
     ~TreeNode();
 };
 
-// General Tree class
-class Tree {
+class Tree {// General Tree class
 private:
     TreeNode* root;
 
@@ -83,4 +83,4 @@ void Tree::preorderTraversal() {// Function to print the tree
     cout << endl;
 }
 
-#endif //TREE_ADT_H
+#endif //AI_TREE_H

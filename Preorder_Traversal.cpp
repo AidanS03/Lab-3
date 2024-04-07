@@ -5,18 +5,22 @@
 using namespace std;
 
 int main() {
-    // Creating a general tree
-    Tree tree;
+    Tree tree;//create tree object
 
-    // Inserting values into the tree
-    tree.insert("root", "child1");
-    tree.insert("root", "child2");
-    tree.insert("child1", "grandchild1");
-    tree.insert("child1", "grandchild2");
-    tree.insert("child2", "grandchild3");
-    tree.insert("child2", "grandchild4");
+    tree.insert("Paper", "Title");//generate the tree
+    tree.insert("Paper", "Abstract");
+    tree.insert("Paper", "Chapter 1");
+    tree.insert("Paper", "Chapter 2");
+    tree.insert("Paper", "Chapter 3");
+    tree.insert("Paper", "References");
+    tree.insert("Chapter 1", "1.1");
+    tree.insert("Chapter 1", "1.2");
+    tree.insert("Chapter 2", "2.1");
+    tree.insert("Chapter 2", "2.2");
+    tree.insert("Chapter 2", "2.3");
+    tree.insert("Chapter 3", "3.1");
+    tree.insert("Chapter 3", "3.2");
 
-    // Printing the tree
-    tree.print();
+    tree.preorderTraversal(); //use preorder traversal to move through the tree
 
 }
