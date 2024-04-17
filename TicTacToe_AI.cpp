@@ -1,5 +1,6 @@
 #include <cstdlib>				// system definitions
 #include <iostream>				// I/O definitions
+#include "AI_Tree.h"
 
 using namespace std;				// make std:: accessible
 
@@ -8,11 +9,16 @@ int board[3][3];				// playing board
 int currentPlayer;				// current player (X or O)
 char restart = 'y';
 
+//game functions
 void printBoard();
 void clearBoard();
 void putMark(int i, int j);
 bool isWin(int mark);
 bool isTie();
+
+//AI functions
+RowCol findBestMove(int board[3][3]);
+int minimax(int board[3][3], int depth, int mark);
 
 int main(){
     clearBoard();
@@ -33,7 +39,10 @@ int main(){
                 }
             }else{
                 cout << "O's turn." << endl;
-                putMark(0, 0);
+                RowCol nextMove = findBestMove(board);
+                row = nextMove.row;
+                col = nextMove.col;
+                putMark(row, col);
                 printBoard();
             }
         }
@@ -95,4 +104,69 @@ bool isTie(){
         }
     }
     return true;
+}
+
+RowCol findBestMove(int board[3][3]){
+   int bestScore = 9999; //variable to save best possible score
+   RowCol bestRowCol; //object to hold the best row and column option
+   bestRowCol.row = -1; //initalize row and col
+   bestRowCol.col = -1; 
+
+   for(int i = 0; i < 3; i++){
+        for(int j = 0; j < 3; j++){
+            if(board[i][j] == EMPTY){
+                board[i][j] = O; // add potential move to the board
+                int moveScore = minimax(board, 0 , X); //find best score for this move
+                board[i][j] = EMPTY; //undo the tested move
+
+                if(moveScore < bestScore){
+                    bestRowCol.row = i;//sets new best row col and best score to be tested against future possible moves
+                    bestRowCol.col = j;
+                    bestScore = moveScore;
+                }
+            }
+        }
+   }
+
+   return bestRowCol;
+}
+
+int minimax(int board[3][3], int depth, int mark){
+    if(isWin(X)){ //if X won return its value
+        return 1;
+    }
+
+    if(isWin(O)){//if O won return O's value
+        return -1;
+    }
+
+    if(isTie()){//if tied return a 0
+        return 0;
+    }
+
+    if(mark == X){//if it is X's turn
+        int best = -9999; //initialize a local best score
+        for(int i = 0; i < 3; i++){//move through the game board
+            for(int j = 0; j < 3; j++){
+                if(board[i][j] == EMPTY){
+                    board[i][j] = X; // add potential move to the board
+                    best = max(best, minimax(board, depth+1 , O)); //recurssivly call minimax to find best score for this move and compare it to the current best
+                    board[i][j] = EMPTY; //undo the tested move
+                }
+            }
+        }
+        return best;
+    }else{//O's turn
+        int best = 9999;
+        for(int i = 0; i < 3; i++){//move through the game board
+            for(int j = 0; j < 3; j++){
+                if(board[i][j] == EMPTY){
+                    board[i][j] = O; // add potential move to the board
+                    best = max(best, minimax(board, depth+1 , X)); //recurssivly call minimax to find best score for this move and compare it to the current best
+                    board[i][j] = EMPTY; //undo the tested move
+                }
+            }
+        }
+        return best;
+    }
 }

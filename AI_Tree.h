@@ -6,6 +6,12 @@
 
 using namespace std;
 
+class RowCol{//class to create an object that holds a row and column value
+public:
+    int row;
+    int col;
+};
+
 class TreeNode {// Node class for general tree
 public:
     string data;
@@ -82,5 +88,7 @@ void Tree::preorderTraversal() {// Function to print the tree
     preorderRecursive(root);
     cout << endl;
 }
+
+
 
 #endif //AI_TREE_H
