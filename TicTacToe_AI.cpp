@@ -162,7 +162,7 @@ int minimax(int board[3][3], int depth, int mark){
             for(int j = 0; j < 3; j++){
                 if(board[i][j] == EMPTY){
                     board[i][j] = O; // add potential move to the board
-                    best = max(best, minimax(board, depth+1 , X)); //recurssivly call minimax to find best score for this move and compare it to the current best
+                    best = min(best, minimax(board, depth+1 , X)); //recurssivly call minimax to find best score for this move and compare it to the current best
                     board[i][j] = EMPTY; //undo the tested move
                 }
             }
